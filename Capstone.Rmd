@@ -1,0 +1,381 @@
+---
+title: "Capstone Project"
+author: "Ryan Ramirez"
+date: "2023-01-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+
+Cyclistic is a substantial bike-share program that has multiple bike stations 
+around the greater Chicago area. As the number of users grow, the company wants
+to explore how they can increase the number of annual memberships. Specifically, 
+we will focus on the behaviors of casual members to create recommendations that 
+will encourage their transition into an annual member.
+
+
+```{r install packages, include = FALSE}
+
+library(tidyverse)
+library("geosphere")
+library("gridExtra") 
+library("ggmap")
+```
+
+## Processing and Cleaning the Data
+
+
+The data was gathered from a public source and made available by Motivate 
+International Inc. found on the AWS cloud platform. 
+
+Since this is public data,there is no personal info containing the riders bank 
+details or home address.Each ride has a unique ride ID, however, the type of 
+membership is shown to continue our analysis.
+
+
+Prior to importing the data sets the following steps were done on Excel:
+
+1. Calculated the ride duration for each ride in "hh:mm:ss" format
+2. Added a column indicating the day of the week in numerical format
+
+
+
+### Using R for data cleaning
+
+
+The following was done with the imported csv files from Excel:
+
+* The *ride_length* column was converted to a numeric double indicating seconds
+* All NA's were omitted from each monthly dataset
+
+The data includes rows where the station name or end staion names are missing,
+but this will be analyzed later. 
+
+
+```{r loading data, include = FALSE}
+library(readr)
+trip_2022_01 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202201-divvy-tripdata/202201-divvy-tripdata.csv")
+trip_2022_02 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202202-divvy-tripdata/202202-divvy-tripdata.csv")
+trip_2022_03 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202203-divvy-tripdata/202203-divvy-tripdata.csv")
+trip_2022_04 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202204-divvy-tripdata/202204-divvy-tripdata.csv")
+trip_2022_05 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202205-divvy-tripdata/202205-divvy-tripdata.csv")
+trip_2022_06 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202206-divvy-tripdata/202206-divvy-tripdata.csv")
+trip_2022_07 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202207-divvy-tripdata/202207-divvy-tripdata.csv")
+trip_2022_08 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202208-divvy-tripdata/202208-divvy-tripdata.csv")
+trip_2022_09 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202209-divvy-tripdata/202209-divvy-publictripdata.csv")
+trip_2022_10 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202210-divvy-tripdata/202210-divvy-tripdata.csv")
+trip_2022_11 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202211-divvy-tripdata/202211-divvy-tripdata.csv")
+trip_2022_12 <- read_csv("C:/Users/kashi/OneDrive/Desktop/cyclistic/202212-divvy-tripdata/202212-divvy-tripdata.csv")
+```
+
+
+```{r data cleaning, include = FALSE}
+library(lubridate)
+jan <- trip_2022_01
+jan <- jan %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+feb <- trip_2022_02
+feb <- feb %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+mar <- trip_2022_03
+mar <- mar %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+apr <- trip_2022_04
+apr <- apr %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+may <- trip_2022_05
+may <- may %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+jun <- trip_2022_06
+jun <- jun %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+jul <- trip_2022_07
+jul <- jul %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+aug <- trip_2022_08
+aug <- aug %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+sep <- trip_2022_09
+sep <- sep %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+oct <- trip_2022_10
+oct <- oct %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+nov <- trip_2022_11
+nov <- nov %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+
+dec <- trip_2022_12
+dec <- dec %>%
+  mutate(ride_length, ride_length = as.numeric(ride_length))%>%
+  na.omit(ride_length)
+head(dec)
+```
+
+The monthly data frames were combined together to create a data frame observing 
+the entire year of 2022. This data frame will be used for most of the analysis.
+
+```{r yearly data, include = FALSE}
+library(lubridate)
+year = bind_rows(jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec)
+```
+
+New columns were added to the year data set including the year, month, and date
+for each bike ride. 
+
+```{r yearly data analysis, include = FALSE}
+year$date <- as.Date.character(year$started_at, format = "%m/%d/%Y")
+year$month <- format(as.Date(year$date), "%m")
+year$day <- format(as.Date(year$date), "%d")
+year$yr <- format(as.Date(year$date), "%Y")
+```
+
+
+## Analysis
+
+
+### Monthly Data
+
+
+The following graph shows that there are less riders in the Winter months compared 
+to Spring and Summer. This observation can be seen for both casual and annual 
+members.
+
+
+```{r Analyze number of bike rides, echo = FALSE}
+ggplot(data = year) + 
+  geom_bar(aes(x = month, fill = member_casual), position = 'dodge') +
+  labs(title = "Bike Ride Frequency Each Month in 2022", x = "Month",
+       y = "Number of Rides", fill = "Member Type", 
+       caption = "Data source: Motivate International Inc")
+#Motivate International Inc
+```
+
+
+### Daily Data
+The following graph shows that casual members rode more on the weekends
+compared to the weekdays. Annual members appeared to rode more on the weekdays
+compared to the the weekends. However, overall we see that annual riders
+bike more consistently across the whole week compared to casual riders.
+
+
+```{r day of week bike rides, echo = FALSE}
+ggplot(data = year) + 
+  geom_bar(aes(x = day_of_week, fill = member_casual), position = 'dodge') +
+  labs(title = "Bike Ride Frequency Each Day in 2022", x = "Day of Week",
+       y = "Number of Rides", fill = "Member Type", 
+       caption = "Data source: Motivate International Inc",
+       subtitle = "1 = Sunday; 7 = Saturday") +
+       scale_x_continuous(labels = 1:7, breaks = 1:7)
+```
+
+
+### Average Ride Length: Casual VS Member
+
+
+Compute the average ride length for both casual and annual members. The plots
+below show the average ride length for the year, month, and day of the week.
+The pattern we find is that the average ride length across the whole year,
+month, and days of the week. The average ride length of the year for casual
+riders was 23.84 minutes and annual riders was 12.45 minutes.
+
+
+```{r summary data, echo = FALSE}
+summary_data <- year %>%
+  group_by(member_casual)%>%
+  summarise(avg_ride_time = mean(ride_length)/60)
+
+monthly_avg <- year %>%
+  group_by(month, member_casual)%>%
+  summarise(avg_ride_time = mean(ride_length)/60 , .groups = 'drop')
+
+daily_avg <- year %>%
+  group_by(day_of_week, member_casual)%>%
+  summarise(avg_ride_time = mean(ride_length)/60 , .groups = 'drop')
+
+ggplot(summary_data) +
+  geom_col(aes(x=member_casual, y=avg_ride_time, fill = member_casual), show.legend = F) +
+  labs(title = "Average Ride Time in 2022", y = "Ride Length (in minutes)", x = "Member Type",
+       caption = "Data sourcs:Motivate International Inc")
+
+ggplot(monthly_avg) +
+  geom_col(aes(x=month, y=avg_ride_time, fill = member_casual),position = 'dodge') +
+  labs(title = "Average Ride Time Each Month in 2022", y = "Ride Length (in minutes)", x = "Month",
+       fill = "Member Type",
+       caption = "Data source:Motivate International Inc")
+
+ggplot(daily_avg) +
+  geom_col(aes(x=day_of_week, y=avg_ride_time, fill = member_casual),position = 'dodge') +
+  labs(title = "Average Ride Time Each Day in 2022", y = "Ride Length (in minutes)", x = "Day Of Week",
+       fill = "Member Type",
+       caption = "Data Source:Motivate International Inc",
+       subtitle = "1 = Sunday;7 = Saturday") +
+  scale_x_continuous(labels = 1:7, breaks = 1:7)
+
+year %>%
+  group_by(member_casual)%>%
+  summarise(avg_ride_time = mean(ride_length)/60)
+```
+
+
+### Electric Vs Classic Bikes
+
+
+We investigate the types of bikes ridden by casual and annual members across the
+year and each day. We find that annual riders significantly use classic bikes 
+more than electric bikes while casual riders used around the same amount of
+electric and classic bikes the entire year. However, we find that the casual
+riders use classic and electric bikes more on the weekends. This reflects the 
+general behavior of casual riders riding bikes more on the weekends.
+
+
+```{r electric and classical bikes, echo = FALSE}
+year %>%
+  filter(rideable_type!="docked_bike")%>%
+  ggplot() +
+  geom_bar(aes(x = month, fill = member_casual), position = 'dodge') + 
+  facet_wrap(~rideable_type) + labs(title = "Types of Bikes Used Each Month",
+                                    subtitle = "Classic and Electric Bikes",
+                                    caption = "Data source:Motivate International Inc",
+                                    fill = "Member Type",
+                                    x = "Month")+
+  scale_fill_brewer(palette="Dark2")
+
+year %>%
+  filter(rideable_type!="docked_bike")%>%
+  ggplot() +
+  geom_bar(aes(x = day_of_week, fill = member_casual), position = 'dodge') + 
+  facet_wrap(~rideable_type) + 
+  labs(title = "Types of Bikes Used Each Day",
+      subtitle = "Classic and Electric Bikes",
+      caption = "Data source:Motivate International Inc",
+      x = "Day of Week",
+      fill = "Member Type")+
+      scale_fill_brewer(palette="Dark2")
+```
+
+
+
+
+### Popular Bike Routes
+
+
+Investigated popular routes by both casual and annual members. This takes account
+of bike rides where start and end stations are the same to consider all 
+routes.
+
+Below we find some of the most popular routes. We observe that casual member 
+routes are mostly starting in tourist spots such as Millennium Park. Meanwhile,
+we find that casual members have more routes starting outside of tourist 
+hot spots and are more spread out around the Chicago area.
+
+
+```{r popular routes, echo= FALSE}
+routes <- year %>%
+  group_by(start_station_name, end_station_name,member_casual)%>%
+  summarise(total = n(), avg_time = mean(ride_length)/60, .groups = 'drop') %>%
+  arrange(-total)
+
+casual_route <- routes %>%
+  filter(member_casual == "casual")
+head(casual_route)
+
+member_route <- routes %>%
+  filter(member_casual == "member")
+head(member_route)
+```
+
+
+Created a csv file to import into Tableau and create a data visualization of 
+Chicago and popular start stations and routes used by casual and annual
+members. We can find that more casual riders are found in tourist areas such
+as downtown or near famous landmarks. 
+
+
+```{r csv file, include = FALSE}
+stations <- year %>% 
+filter(start_lng != end_lng & start_lat != end_lat) %>%
+group_by(start_station_name,end_station_name,start_lng, start_lat, end_lng, end_lat, member_casual) %>%
+summarise(total = n(),.groups="drop") %>%
+filter(total > 250)
+```
+
+
+### Tableau Visualization
+
+You can click here to observe the dashboard: [Chicago Bike Routes and Stations](https://public.tableau.com/app/profile/ryan6592/viz/ChicagoCyclitic/Dashboard1#1)
+
+
+
+## Conclusion
+
+
+Based on the analysis on the data of bike rides in 2022, we found the following:
+
+* There was a higher number of casual riders than members on the weeekend
+* On average, casual riders had a higher ride duration than members across the year
+* Classic bikes and electric bikes are used in similar amount for both member types
+* The popular casual rider stations/routes begin in tourist or recreational spots
+
+We can draw the conclusion that although annual members ride more each day we,
+find that casual riders use the bikes for longer periods, specifically, weekends.
+In addition, the Spring and Summer seasons are where most bike rides are 
+found.Furthermore, from observations of popular bike routes, casual riders are attracted
+more to tourist locations like Millennium park, etc. Also, there was no clear
+indication of what kinds of bikes casual members preferred (electric or classic).
+
+
+We can assume that there might be a larger frequency of member bike rides because 
+it can be used more for commuting to work from Monday through Friday. We also
+take account the each ride ID is different but we do not know if it is the same
+individual riding different times each day. However, we only wanted to observe 
+the frequency of bike rides according to type of membership. 
+
+
+
+In conclusion, some recommendations may include the following:
+
+* Offer first 6 months for free for annual membership. This will be in handy during
+the Spring and Summer months where there are more bike rides
+
+* Digital marketing on travel websites or in partnership with travel agencies for
+tourists coming to Chicago
+
+* Create more advertising near popular start stations for casual riders; use
+tourist incentives such as perks with annual membership
+
+* Market towards residents or workers who commute to work; incentivize biking
+for casual riders who go to work
+
+
+
+
+
+
+

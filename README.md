@@ -1,7 +1,7 @@
 # Ryan_Ramirez_Portfolio
 Portfolio of Data Analysis Projects
 
-# [Bike-Share Case Study](https://github.com/rnramire/Kaggle](https://github.com/rnramire/Bike_Share_Case_Study)
+# [Bike-Share Case Study](https://github.com/rnramire/Bike_Share_Case_Study)
 * Fictional bike-share company that wants to increase annual memberships
 * Used Excel, R/R-Studio, and Tableau to analyze casual bike riders
 * Created data-driven insights to increase membership

@@ -13,4 +13,4 @@ Portfolio of Data Analysis Projects
 * Packages used include tidyverse
 * Statistical analysis with t-tests
 
-![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/musgrove.png)
+![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/musgrove_2.png)

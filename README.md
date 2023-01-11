@@ -7,6 +7,8 @@ Portfolio of Data Analysis Projects
 * Created data-driven insights to increase membership
 * Packages include tidyverse
 
+![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/Chicago.png)
+
 # [Joe Musgrove Investigation](https://github.com/rnramire/joe_musgrove)
 * MLB pitcher Joe Musgrove was accused of using foreign substances to increase spin rate
 * Used R to analyze and visualize spin rate data

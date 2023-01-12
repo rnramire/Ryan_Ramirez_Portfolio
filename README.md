@@ -16,3 +16,8 @@ Portfolio of Data Analysis Projects
 * Statistical analysis with t-tests
 
 ![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/line_graph.png)
+
+
+# [A/B Testing in Python](https://github.com/rnramire/AB_testing_python)
+* Used Kaggle dataset to run hypothetical A/B test with current conversion rate 1% and 2% increase
+* Jupyter notebbok and used libraries such as pandas and NumPy

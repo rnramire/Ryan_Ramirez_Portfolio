@@ -2,7 +2,6 @@
 Portfolio of Data Analysis Projects
 
 # [Bike-Share Case Study](https://github.com/rnramire/Bike_Share_Case_Study)
-### [Report](https://rpubs.com/rnramire/bike-share)
 * Fictional bike-share company that wants to increase annual memberships
 * Used Excel, R/R-Studio, and Tableau to analyze casual bike riders
 * Created data-driven insights to increase membership
@@ -11,7 +10,6 @@ Portfolio of Data Analysis Projects
 ![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/Chicago%20(1).png)
 
 # [Joe Musgrove Investigation](https://github.com/rnramire/joe_musgrove)
-### [Report](https://rpubs.com/rnramire/joe_musgrove)
 * MLB pitcher Joe Musgrove was accused of using foreign substances to increase spin rate
 * Used R to analyze and visualize spin rate data
 * Packages used include tidyverse

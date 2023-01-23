@@ -18,6 +18,6 @@ Portfolio of Data Analysis Projects
 ![](https://github.com/rnramire/Ryan_Ramirez_Portfolio/blob/main/images/line_graph.png)
 
 
-# [A/B Testing in Python](https://github.com/rnramire/AB_testing_python)
+# [A/B Testing in Python](https://github.com/rnramire/A-B-Testing)
 * Used Kaggle dataset to run hypothetical A/B test with current conversion rate 1% and 2% increase
 * Jupyter notebbok and used libraries such as pandas and NumPy

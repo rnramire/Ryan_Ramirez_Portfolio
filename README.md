@@ -21,3 +21,8 @@ Portfolio of Data Analysis Projects
 # [A/B Testing in Python](https://github.com/rnramire/A-B-Testing)
 * Used Kaggle dataset to run hypothetical A/B test with current conversion rate 1% and 2% increase
 * Jupyter notebbok and used libraries such as pandas and NumPy
+
+# [Regression Models](https://github.com/rnramire/Cement_Regression/blob/main/Regression%20Models.ipynb)
+* Imported Kaggle dataset showing the components of cement and its strength
+* Used python and jupyter notebook to investigate linear and random forest regressions
+* Investigated which model is best with pandas, sklearn, and seaborn

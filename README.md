@@ -28,5 +28,5 @@ Portfolio of Data Analysis Projects
 * Investigated which model is best with pandas, sklearn, and seaborn
 
 # [Book Recommendation System](https://github.com/rnramire/book_recommendation)
-* Used KNN to create book recommendations
+* Used KNN to create book recommendations in jupyter notebook
 * Exported large dataset with more than a million user ratings

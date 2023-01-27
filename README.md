@@ -26,3 +26,7 @@ Portfolio of Data Analysis Projects
 * Imported Kaggle dataset showing the components of cement and its strength
 * Used python and jupyter notebook to investigate linear and random forest regressions
 * Investigated which model is best with pandas, sklearn, and seaborn
+
+# [Book Recommendation System](https://github.com/rnramire/book_recommendation)
+* Used KNN to create book recommendations
+* Exported large dataset with more than a million user ratings

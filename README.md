@@ -30,3 +30,8 @@ Portfolio of Data Analysis Projects
 # [Book Recommendation System](https://github.com/rnramire/book_recommendation)
 * Used KNN to create book recommendations in jupyter notebook
 * Exported large dataset with more than a million user ratings
+
+# [SQL Practice with NBA Database](https://github.com/rnramire/NBA_SQL)
+* SQLite in jupyter notebook to explore NBA data
+* Used Joins, Group by, and aggregate data to explore data
+* Found the highest frequency matchup in NBA history

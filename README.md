@@ -35,6 +35,3 @@ Portfolio of Data Analysis Projects
 * Used Joins, Group by, and aggregate data to explore data
 * Found the highest frequency matchup in NBA history
 
-# [Baltimore City Public Waste Memo](https://github.com/rnramire/Baltimore_Memo)
-* Built insights on city's service efficiency and show if service is equitable
-* Used pandas to run EDA and Tableau to create a dashboard
